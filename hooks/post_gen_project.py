@@ -405,6 +405,20 @@ def remove_drf_starter_files():
     shutil.rmtree(Path("{{cookiecutter.project_slug}}", "users", "tests", "api"))
 
 
+def replace_bootstrap_with_tailwind():
+    """Remove the default bootstrap templates folder
+    
+    Remove the default templates folder that uses bootstrap and replace it
+    with a version that uses tailwind.
+    """
+    shutil.rmtree(Path("{{cookiecutter.project_slug}}"), "templates") # Remove the deault templates.
+
+
+def remove_tailwind_template_folder():
+    """Remove the added tailwind version of the templates directory."""
+    shutil.rmtree(Path("{{cookiecutter.project_slug}}"), "templates_tailwind")
+
+
 def main():
     debug = "{{ cookiecutter.debug }}".lower() == "y"
 
@@ -496,6 +510,11 @@ def main():
 
     if "{{ cookiecutter.use_async }}".lower() == "n":
         remove_async_files()
+
+    if "{{ cookiecutter.use_tailwind }}".lower() == "y":
+        replace_bootstrap_with_tailwind()
+    else:
+        remove_tailwind_template_folder()
 
     print(SUCCESS + "Project initialized, keep up the good work!" + TERMINATOR)
 
